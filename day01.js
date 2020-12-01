@@ -207,9 +207,9 @@ function part1() {
             if ((numbers[i1] + numbers[i2]) === 2020) {
                 return numbers[i1] * numbers[i2];
             }
-        };
-    };
-};
+        }
+    }
+}
 console.log(part1());
 
 function part2() {
@@ -219,10 +219,10 @@ function part2() {
                 if ((numbers[i1] + numbers[i2] + numbers[i3]) === 2020) {
                     return numbers[i1] * numbers[i2] * numbers[i3];
                 }
-            };
-        };
-    };
-};
+            }
+        }
+    }
+}
 console.log(part2());
 
 // 1014624

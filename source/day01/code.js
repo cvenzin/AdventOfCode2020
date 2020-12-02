@@ -1,6 +1,6 @@
 import fs from 'fs'
 
-const input = fs.readFileSync('input.txt', 'utf-8');
+const input = fs.readFileSync('source/day01/input.txt', 'utf-8');
 const numbers = input.split('\n').map(n => Number(n));
 
 function part1() {
@@ -26,6 +26,3 @@ function part2() {
     }
 }
 console.log(part2());
-
-// 1014624
-// 80072256

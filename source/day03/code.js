@@ -1,8 +1,8 @@
-import fs from 'fs'
+import {
+    getLines
+} from '../modules/input.js'
 
-const input = fs.readFileSync('source/day03/input.txt', 'utf-8');
-const lines = input.split('\n').map(line => line.trim());
-
+const lines = getLines('day03');
 const treeChar = '#';
 const lineLength = lines[0].length;
 const maxY = lines.length;

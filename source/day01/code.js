@@ -1,7 +1,9 @@
-import fs from 'fs'
+import {
+    getLines
+} from '../modules/input.js'
 
-const input = fs.readFileSync('source/day01/input.txt', 'utf-8');
-const numbers = input.split('\n').map(n => Number(n));
+const lines = getLines('day01');
+const numbers = lines.map(n => Number(n));
 
 function part1() {
     for (let i1 = 0; i1 < numbers.length; i1++) {

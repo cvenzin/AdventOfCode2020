@@ -1,8 +1,8 @@
-import fs from 'fs'
+import {
+    getLines
+} from '../modules/input.js'
 
-const input = fs.readFileSync('source/day02/input.txt', 'utf-8');
-
-const lines = input.split('\n');
+const lines = getLines('day02');
 const data = [];
 lines.forEach(line => {
     const lineData = {

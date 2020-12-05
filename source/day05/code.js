@@ -31,7 +31,7 @@ function getSeatId(line) {
 }
 
 function part1() {
-    return Math.max(...lines.map(line => getSeatId(line)))
+    return Math.max(...lines.map(line => getSeatId(line)));
 }
 console.log(part1());
 

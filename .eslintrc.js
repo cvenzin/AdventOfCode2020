@@ -1,6 +1,7 @@
-export default {
+/* eslint-disable no-undef */
+module.exports = {
     "env": {
-        "browser": false,
+        "browser": true,
         "es2021": true
     },
     "extends": "eslint:recommended",
@@ -8,5 +9,6 @@ export default {
         "ecmaVersion": 12,
         "sourceType": "module"
     },
-    "rules": {}
+    "rules": {
+    }
 };

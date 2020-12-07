@@ -31,10 +31,8 @@ lines.forEach(line => {
                 parents: [bag]
             };
             allBags.push(childBag);
-        } else {
-            if (!childBag.parents.find(p => p.name === bagName)) {
-                childBag.parents.push(bag);
-            }
+        } else if (!childBag.parents.find(p => p.name === bagName)) {
+            childBag.parents.push(bag);
         }
         for (let i = 0; i < count; i++) {
             bag.childs.push(childBag);
@@ -44,11 +42,11 @@ lines.forEach(line => {
 const myBag = allBags.find(bag => bag.name === myBagName);
 
 function findBagNames(bags) {
-    let bagsNames = bags.map(bag => bag.name);
+    let bagNames = bags.map(bag => bag.name);
     bags.forEach(bag => {
-        bagsNames = bagsNames.concat(findBagNames(bag.parents));
+        bagNames = bagNames.concat(findBagNames(bag.parents));
     });
-    return [...new Set(bagsNames)];
+    return [...new Set(bagNames)];
 }
 
 function part1() {

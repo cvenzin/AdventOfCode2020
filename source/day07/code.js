@@ -41,33 +41,33 @@ lines.forEach(line => {
 });
 const myBag = allBags.find(bag => bag.name === myBagName);
 
-function findBagNames(bags) {
+function getParentBagNames(bags) {
     let bagNames = bags.map(bag => bag.name);
     bags.forEach(bag => {
-        bagNames = bagNames.concat(findBagNames(bag.parents));
+        bagNames = bagNames.concat(getParentBagNames(bag.parents));
     });
     return [...new Set(bagNames)];
 }
 
 function part1() {
     const bagsDirectlyContainingMyBag = allBags.filter(bag => bag.childs.includes(myBag));
-    return findBagNames(bagsDirectlyContainingMyBag).length;
+    return getParentBagNames(bagsDirectlyContainingMyBag).length;
 }
 console.log(part1());
 
 
-function findChildBagCount(bags) {
+function getChildBagCount(bags) {
     let count = 0;
     bags.forEach(bag => {
         count += bag.childs.length;
     });
     bags.forEach(bag => {
-        count += findChildBagCount(bag.childs);
+        count += getChildBagCount(bag.childs);
     });
     return count;
 }
 
 function part2() {
-    return findChildBagCount([myBag]);
+    return getChildBagCount([myBag]);
 }
 console.log(part2());

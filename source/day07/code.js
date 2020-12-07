@@ -57,10 +57,7 @@ console.log(part1());
 
 
 function getChildBagCount(bags) {
-    let count = 0;
-    bags.forEach(bag => {
-        count += bag.childs.length;
-    });
+    let count = bags.map(bag => bag.childs.length).reduce((a, b) => a + b, 0);
     bags.forEach(bag => {
         count += getChildBagCount(bag.childs);
     });

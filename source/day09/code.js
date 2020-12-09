@@ -30,17 +30,15 @@ console.log(part1());
 
 function part2() {
     const invalidNumber = part1();
-    let contiguousSet = [];
     for (let i = 0; i < numbers.length; i++) {
+        const contiguousSet = [];
         for (let j = i; j < numbers.length; j++) {
             contiguousSet.push(numbers[j]);
             const sum = contiguousSet.reduce((a, b) => a + b);
             if (sum > invalidNumber) {
-                contiguousSet = [];
                 break;
             } else if (contiguousSet.length > 1 && sum === invalidNumber) {
-                const result = contiguousSet.sort((a, b) => a - b);
-                return result[0] + result[result.length - 1];
+                return Math.min(...contiguousSet) + Math.max(...contiguousSet);
             }
         }
     }

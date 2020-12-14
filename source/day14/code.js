@@ -27,16 +27,16 @@ function getMaskedBinary(binary, mask) {
 
 function part1() {
     const memory = {};
-    let mask = [];
+    let mask = '';
     lines.forEach(line => {
-        if (line.startsWith('mask')) {
-            mask = line.split('= ')[1].split('');
+        const [a, b] = line.split(' = ');
+        if (a.startsWith('mask')) {
+            mask = b;
         } else {
-            const split = line.split('] = ');
-            const number = Number(split[1]);
+            const number = Number(b);
+            const memoryIndex = Number(a.substring(4, a.length - 1));
             const binary = getBinary(number);
             const maskedBinary = getMaskedBinary(binary, mask);
-            const memoryIndex = Number(split[0].slice(4));
             memory[memoryIndex] = parseInt(maskedBinary, 2);
         }
     });
@@ -58,9 +58,9 @@ function getAddresses(binary, mask) {
         const combo = getBinary(i);
         const shortCombo = combo.substr(combo.length - floatingBitsCount).split('');
         const copy = [...binaryArray];
-        for (let k = 0; k < binaryArray.length; k++) {
-            if (copy[k] === 'X') {
-                copy[k] = shortCombo.shift();
+        for (let j = 0; j < binaryArray.length; j++) {
+            if (copy[j] === 'X') {
+                copy[j] = shortCombo.shift();
             }
         }
         const address = parseInt(copy.join(''), 2);
@@ -72,20 +72,20 @@ function getAddresses(binary, mask) {
 function part2() {
     const memory = {};
     let mask = [];
-    for (let i = 0; i < lines.length; i++) {
-        if (lines[i].startsWith('mask')) {
-            mask = lines[i].split('= ')[1].split('');
+    lines.forEach(line => {
+        const [a, b] = line.split(' = ');
+        if (a.startsWith('mask')) {
+            mask = b;
         } else {
-            const split = lines[i].split('] = ');
-            const number = Number(split[1]);
-            const memoryIndex = Number(split[0].slice(4));
+            const number = Number(b);
+            const memoryIndex = Number(a.substring(4, a.length - 1));
             const binaryMemoryIndex = getBinary(memoryIndex);
             const addresses = getAddresses(binaryMemoryIndex, mask);
             addresses.forEach(address => {
                 memory[address] = number;
             });
         }
-    }
+    });
     return Object.values(memory).reduce((a, b) => a + b, 0);
 }
 console.log(part2());

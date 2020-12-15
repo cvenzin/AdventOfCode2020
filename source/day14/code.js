@@ -27,7 +27,7 @@ function getMaskedBinary(binary, mask) {
 
 function part1() {
     const memory = {};
-    let mask = '';
+    let mask;
     lines.forEach(line => {
         const [a, b] = line.split(' = ');
         if (a.startsWith('mask')) {
@@ -71,7 +71,7 @@ function getAddresses(binary, mask) {
 
 function part2() {
     const memory = {};
-    let mask = [];
+    let mask;
     lines.forEach(line => {
         const [a, b] = line.split(' = ');
         if (a.startsWith('mask')) {

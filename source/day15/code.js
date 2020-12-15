@@ -12,20 +12,17 @@ function computeLastSpokenNumber(lastTurn) {
         spokenNumber = startingNumbers[i];
     }
     for (let i = startingNumbers.length + 1; i <= lastTurn; i++) {
-        if (map.has(spokenNumber)) {
-            const turns = map.get(spokenNumber);
-            if (turns[0] === -1) {
-                spokenNumber = 0;
-            } else {
-                spokenNumber = turns[1] - turns[0];
-            }
+        let turns = map.get(spokenNumber);
+        if (turns && turns[0] !== -1) {
+            spokenNumber = turns[1] - turns[0];
         } else {
             spokenNumber = 0;
         }
-        if (map.has(spokenNumber)) {
-            const arr = map.get(spokenNumber);
-            arr[0] = arr[1];
-            arr[1] = i;
+
+        turns = map.get(spokenNumber);
+        if (turns) {
+            turns[0] = turns[1];
+            turns[1] = i;
         } else {
             map.set(spokenNumber, [-1, i]);
         }

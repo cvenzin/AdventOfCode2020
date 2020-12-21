@@ -143,7 +143,6 @@ function part1() {
                     tile: resultTiles[0][1]
                 });
                 tiles.delete(resultTiles[0][0]);
-                continue;
             }
             resultTiles = east(currentTile, tiles);
             if (resultTiles.length === 1) {
@@ -152,7 +151,6 @@ function part1() {
                     tile: resultTiles[0][1]
                 });
                 tiles.delete(resultTiles[0][0]);
-                continue;
             }
             resultTiles = south(currentTile, tiles);
             if (resultTiles.length === 1) {
@@ -161,7 +159,6 @@ function part1() {
                     tile: resultTiles[0][1]
                 });
                 tiles.delete(resultTiles[0][0]);
-                continue;
             }
             resultTiles = west(currentTile, tiles);
             if (resultTiles.length === 1) {
@@ -170,7 +167,6 @@ function part1() {
                     tile: resultTiles[0][1]
                 });
                 tiles.delete(resultTiles[0][0]);
-                continue;
             }
         }
     }
@@ -199,15 +195,87 @@ function part1() {
 }
 console.log(part1());
 
-function logGrid(grid) {
-    for (let i = 0; i < grid.length; i++) {
-        console.log(grid[i].join(''));
+// function logGrid(grid) {
+//     for (let i = 0; i < grid.length; i++) {
+//         console.log(grid[i].join(''));
+//     }
+//     console.log('------------------------');
+// }
+
+const a = '                  # ';
+const b = '#    ##    ##    ###';
+const c = ' #  #  #  #  #  #   ';
+const indexes = [];
+for (let i = 0; i < a.length; i++) {
+    if (a[i] === '#') {
+        indexes.push([i, -1]);
     }
-    console.log('------------------------');
+}
+for (let i = 0; i < b.length; i++) {
+    if (b[i] === '#') {
+        indexes.push([i, 0]);
+    }
+}
+for (let i = 0; i < c.length; i++) {
+    if (c[i] === '#') {
+        indexes.push([i, 1]);
+    }
+}
+
+function findMonsters(grid) {
+    let sum = 0;
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid.length; j++) {
+            let invalid = false;
+            indexes.forEach(index => {
+                const x = grid[i + index[0]];
+                if (!x) {
+                    invalid = true;
+                } else if (x[j + index[1]] !== '#' && x[j + index[1]] !== 'o') {
+                    invalid = true;
+                }
+            });
+            if (!invalid) {
+                sum++;
+                indexes.forEach(index => {
+                    const x = grid[i + index[0]];
+                    x[j + index[1]] = 'o';
+                });
+            }
+        }
+    }
+
+    return sum;
+
+}
+
+function getMonsterGrid(bigGrid) {
+    let count = 0;
+    count += findMonsters(bigGrid);
+    if (count > 0) {
+        return bigGrid;
+    }
+    for (const rotation of getRotations(bigGrid)) {
+        count += findMonsters(rotation);
+        if (count > 0) {
+            return rotation;
+        }
+    }
+    const flippedGrid = flipTile(bigGrid);
+    count += findMonsters(flippedGrid);
+    if (count > 0) {
+        return flippedGrid;
+    }
+    for (const rotation of getRotations(flippedGrid)) {
+        count += findMonsters(rotation);
+        if (count > 0) {
+            return rotation;
+        }
+    }
+    return null;
 }
 
 function part2() {
-    // todo
     const keys = [...tilesSolutionPart1.keys()];
     const minX = Math.min(...keys.map(s => Number(s.split(',')[0])));
     const minY = Math.min(...keys.map(s => Number(s.split(',')[1])));
@@ -219,6 +287,8 @@ function part2() {
     if (minY < 0) {
         yOffset = Math.abs(minY);
     }
+
+    // cut off borders
     const grid = [];
     for (const entry of tilesSolutionPart1.entries()) {
         const withOutBorders = [];
@@ -235,7 +305,9 @@ function part2() {
         }
         grid[y][x] = withOutBorders;
     }
-    const grid2 = [];
+
+    // make one big grid
+    const bigGrid = [];
     for (let i = 0; i < grid.length; i++) {
         const lines = [];
         for (let j = 0; j < grid[i].length; j++) {
@@ -246,20 +318,21 @@ function part2() {
                 lines[k] = lines[k].concat(grid[i][j][k]);
             }
         }
-        for (const line of lines) {
-            grid2.push(line);
+        for (const line of lines.reverse()) {
+            bigGrid.unshift(line);
         }
     }
-    logGrid(grid2);
-    for(const x of getRotations(grid2)){
-        logGrid(x);
+
+    // find sea roughness
+    let sum = 0;
+    const monsterGrid = getMonsterGrid(bigGrid);
+    for (let i = 0; i < monsterGrid.length; i++) {
+        for (let j = 0; j < monsterGrid.length; j++) {
+            if (monsterGrid[i][j] === '#') {
+                sum++;
+            }
+        }
     }
-    const f = flipTile(grid2);
-    logGrid(f);
-    for(const x of getRotations(f)){
-        logGrid(x);
-    }
-    // looks wrong
-    return null;
+    return sum;
 }
 console.log(part2());

@@ -14,11 +14,9 @@ function part1() {
         const c1 = d1.shift();
         const c2 = d2.shift();
         if (c1 > c2) {
-            d1.push(c1);
-            d1.push(c2);
+            d1.push(c1, c2);
         } else {
-            d2.push(c2);
-            d2.push(c1);
+            d2.push(c2, c1);
         }
     }
     const d = d1.length === 0 ? d2 : d1;
@@ -26,19 +24,17 @@ function part1() {
 }
 console.log(part1());
 
-
 function playGame(d1, d2) {
-    const playedCards = new Map();
+    const playedCards = new Set();
     while (d1.length > 0 && d2.length > 0) {
-        const key = d1.join(',') + '-' + d2.join(',');
+        const key = `${d1.join(',')}-${d2.join(',')}`;
         if (playedCards.has(key)) {
             return [
-                [1],
+                d1,
                 []
             ];
         }
-        playedCards.set(key);
-
+        playedCards.add(key);
         const c1 = d1.shift();
         const c2 = d2.shift();
         if (d1.length >= c1 && d2.length >= c2) {
@@ -46,18 +42,14 @@ function playGame(d1, d2) {
             const d2_ = d2.slice(0, c2);
             const [d1__, d2__] = playGame(d1_, d2_);
             if (d1__.length > d2__.length) {
-                d1.push(c1);
-                d1.push(c2);
+                d1.push(c1, c2);
             } else {
-                d2.push(c2);
-                d2.push(c1);
+                d2.push(c2, c1);
             }
         } else if (c1 > c2) {
-            d1.push(c1);
-            d1.push(c2);
+            d1.push(c1, c2);
         } else {
-            d2.push(c2);
-            d2.push(c1);
+            d2.push(c2, c1);
         }
     }
     return [d1, d2];

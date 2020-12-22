@@ -30,7 +30,7 @@ console.log(part1());
 function playGame(d1, d2) {
     const playedCards = new Map();
     while (d1.length > 0 && d2.length > 0) {
-        const key = d1.join() + d2.join();
+        const key = d1.join(',') + '-' + d2.join(',');
         if (playedCards.has(key)) {
             return [
                 [1],

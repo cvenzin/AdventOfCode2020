@@ -28,19 +28,16 @@ console.log(part1());
 
 
 function playGame(d1, d2) {
-    const playedCards1 = new Map();
-    const playedCards2 = new Map();
+    const playedCards = new Map();
     while (d1.length > 0 && d2.length > 0) {
-        const key1 = d1.join();
-        const key2 = d2.join();
-        if (playedCards1.has(key1) && playedCards2.has(key2)) {
+        const key = d1.join() + d2.join();
+        if (playedCards.has(key)) {
             return [
                 [1],
                 []
             ];
         }
-        playedCards1.set(key1);
-        playedCards2.set(key2);
+        playedCards.set(key);
 
         const c1 = d1.shift();
         const c2 = d2.shift();

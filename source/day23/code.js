@@ -4,8 +4,6 @@ import {
 
 const lines = getLines('day23');
 const cups = lines[0].split('').map(Number);
-const maxCup = Math.max(...cups);
-const minCup = Math.min(...cups);
 
 class Node {
     constructor(data, next = null) {
@@ -29,6 +27,7 @@ function compute2(cupList, iterations, part2) {
 
     // play the game
     let currentCupNode = map[cupList[0]];
+    const maxCup = cupList.length;
     for (let i = 0; i < iterations; i++) {
         // console.log(`-- move ${i+1} --`);
         // console.log(`cups (${currentCupNode.data}): ${}`);
@@ -46,7 +45,7 @@ function compute2(cupList, iterations, part2) {
         const c = removedNodes[2].data;
         while (!destinationCup) {
             j--;
-            if (j < minCup) {
+            if (j < 1) {
                 j = maxCup;
             }
             if (a !== j && b !== j && c !== j) {
@@ -81,18 +80,14 @@ function compute2(cupList, iterations, part2) {
 function part1() {
     return compute2([...cups], 100);
 }
-console.time('part1');
 console.log(part1());
-console.timeEnd('part1');
 
 function part2() {
     const input = [...cups];
-    let i = maxCup + 1;
+    let i = Math.max(...input) + 1;
     while (input.length < 1000000) {
         input.push(i++);
     }
     return compute2(input, 10000000, true);
 }
-console.time('part2');
 console.log(part2());
-console.timeEnd('part2');

@@ -5,21 +5,18 @@ import {
 const lines = getLines('day23');
 const cups = lines[0].split('').map(Number);
 
-class Node {
-    constructor(data, next = null) {
-        this.data = data;
-        this.next = next;
-    }
-}
-
 function compute2(cupList, iterations, part2) {
 
     // build map and linked list
     const map = {};
-    let currentNode = new Node(cupList[0]);
+    let currentNode = {
+        data: cupList[0]
+    };
     map[cupList[0]] = currentNode;
     for (let i = 1; i < cupList.length; i++) {
-        currentNode.next = new Node(cupList[i]);
+        currentNode.next = {
+            data: cupList[i]
+        };
         map[cupList[i]] = currentNode.next;
         currentNode = currentNode.next;
     }

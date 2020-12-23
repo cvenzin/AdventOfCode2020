@@ -14,73 +14,24 @@ class Node {
     }
 }
 
-class LinkedList {
-    constructor() {
-        this.head = null;
-    }
-}
-
-LinkedList.prototype.insertAtBeginning = function (data) {
-    let newNode = new Node(data);
-    newNode.next = this.head;
-    this.head = newNode;
-    return this.head;
-}
-
-
-LinkedList.prototype.getAt = function (index) {
-    let counter = 0;
-    let node = this.head;
-    while (node) {
-        if (counter === index) {
-            return node;
-        }
-        counter++;
-        node = node.next;
-    }
-    return null;
-}
-
-
-LinkedList.prototype.getArray = function () {
-    if (!this.head) {
-        this.head = new Node(data);
-        return [];
-    }
-
-    let node = this.head;
-    const data = [];
-    while (node) {
-        if (data.includes(node.data)) {
-            break;
-        }
-        data.push(node.data);
-        node = node.next;
-    }
-    return data;
-}
-
-function compute2(cupState, iterations, part2) {
-
-    const map = {};
-    const list = new LinkedList();
+function compute2(cupList, iterations, part2) {
 
     // build map and linked list
-    list.insertAtBeginning(cupState[0]);
-    let currentNode = list.getAt(0);
-    map[cupState[0]] = currentNode;
-    for (let i = 1; i < cupState.length; i++) {
-        currentNode.next = new Node(cupState[i]);
-        map[cupState[i]] = currentNode.next;
+    const map = {};
+    let currentNode = new Node(cupList[0]);
+    map[cupList[0]] = currentNode;
+    for (let i = 1; i < cupList.length; i++) {
+        currentNode.next = new Node(cupList[i]);
+        map[cupList[i]] = currentNode.next;
         currentNode = currentNode.next;
     }
-    currentNode.next = list.getAt(0);
+    currentNode.next = map[cupList[0]];
 
     // play the game
-    let currentCupNode = list.getAt(0);
+    let currentCupNode = map[cupList[0]];
     for (let i = 0; i < iterations; i++) {
         // console.log(`-- move ${i+1} --`);
-        // console.log(`cups (${currentCupNode.data}): ${list.getArray()}`);
+        // console.log(`cups (${currentCupNode.data}): ${}`);
 
         const removedNodes = [currentCupNode.next, currentCupNode.next.next, currentCupNode.next.next.next];
         currentCupNode.next = removedNodes[2].next;

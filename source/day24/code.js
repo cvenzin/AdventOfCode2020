@@ -21,7 +21,7 @@ lines.forEach(line => {
 });
 
 function getInitalGrid() {
-    const map = new Map();
+    const grid = new Set();
     for (const l of list) {
         let x = 0;
         let y = 0;
@@ -55,13 +55,13 @@ function getInitalGrid() {
             }
         }
         const key = `${x},${y},${z}`;
-        if (!map.has(key)) {
-            map.set(key);
+        if (!grid.has(key)) {
+            grid.add(key);
         } else {
-            map.delete(key);
+            grid.delete(key);
         }
     }
-    return map;
+    return grid;
 }
 
 function part1() {
@@ -119,7 +119,7 @@ function getWhiteNeighbors(x, y, z, grid) {
 function part2() {
     let grid = getInitalGrid();
     for (let i = 0; i < 100; i++) {
-        const newGrid = new Map(grid);
+        const newGrid = new Set(grid);
         for (const coord of grid.keys()) {
             const [x, y, z] = coord.split(',').map(Number);
 
@@ -129,10 +129,10 @@ function part2() {
             }
 
             const whiteNeighbors = getWhiteNeighbors(x, y, z, grid);
-            for (const whiteNeighbor of whiteNeighbors) {
-                const count = getBlackNeighborsCount(...whiteNeighbor, grid);
+            for (let j = 0; j < whiteNeighbors.length; j++) {
+                const count = getBlackNeighborsCount(...whiteNeighbors[j], grid);
                 if (count === 2) {
-                    newGrid.set(`${whiteNeighbor}`);
+                    newGrid.add(`${whiteNeighbors[j]}`);
                 }
             }
         }
